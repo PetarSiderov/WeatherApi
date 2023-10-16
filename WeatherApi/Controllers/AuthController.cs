@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WeatherApi.Entities;
+using WeatherApi.Helpers;
 using WeatherApi.Models;
 
 namespace WeatherApi.Controllers
@@ -51,10 +52,38 @@ namespace WeatherApi.Controllers
                 return Ok("Failed to register");
             }
             catch(Exception ex) {
-                logger.LogError(ex.Message);
+                logger.LogError($"{ex.Message}");
                 return BadRequest();
             }
             
+        }
+
+        [HttpPost("sign-in")]
+        public async Task<IActionResult> SignIn(UserModel user)
+        {
+            try
+            {
+                User userFound = await userManager.FindByNameAsync(user.UserName);
+
+                if(userFound == null)
+                {
+                    return Ok("Wrong credentials");
+                }
+
+                var signInResult = await signInManager.CheckPasswordSignInAsync(userFound, user.Password,false);
+
+                if(signInResult.Succeeded)
+                {
+                    return Ok(AuthHelper.GenerateToken(userFound));
+                }
+
+                return Ok("Wrong credentials");
+            }
+            catch(Exception ex)
+            {
+                logger.LogError($"{ex.Message}");
+                return BadRequest();
+            }
         }
     }
 }
