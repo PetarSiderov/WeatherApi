@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WeatherApi.Entities;
 
 namespace WeatherApi.Repositories
 {
-    public class WeatherContextt : IdentityDbContext<IdentityUser>
+    public class WeatherContextt : IdentityDbContext<User>
     {
         protected readonly IConfiguration Configuration;
 
