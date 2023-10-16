@@ -59,22 +59,21 @@ namespace WeatherApi.Controllers
         }
 
         [HttpPost("sign-in")]
-        public async Task<IActionResult> SignIn(UserModel user)
+        public async Task<IActionResult> SignIn(LoginModel user)
         {
             try
             {
-                User userFound = await userManager.FindByNameAsync(user.UserName);
-
+                User userFound = await userManager.FindByNameAsync(user.username);
                 if(userFound == null)
                 {
                     return Ok("Wrong credentials");
                 }
 
-                var signInResult = await signInManager.CheckPasswordSignInAsync(userFound, user.Password,false);
+                var signInResult = await signInManager.CheckPasswordSignInAsync(userFound, user.password,false);
 
                 if(signInResult.Succeeded)
                 {
-                    return Ok(AuthHelper.GenerateToken(userFound));
+                    return Ok(new { token = AuthHelper.GenerateToken(userFound) });
                 }
 
                 return Ok("Wrong credentials");
