@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WeatherApi.Repositories;
 
@@ -10,9 +11,10 @@ using WeatherApi.Repositories;
 namespace WeatherApi.Migrations
 {
     [DbContext(typeof(WeatherContextt))]
-    partial class WeatherContexttModelSnapshot : ModelSnapshot
+    [Migration("20231017211424_cities")]
+    partial class cities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

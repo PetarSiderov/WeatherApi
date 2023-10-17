@@ -5,6 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WeatherApi.Entities;
 using WeatherApi.Repositories;
+using WeatherApi.Repositories.Interfaces;
+using WeatherApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +19,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<WeatherContextt>(options =>
 {
-    options.UseMySQL(coonectionString);
+   options.UseMySQL(coonectionString);
 });
+
+builder.Services.AddScoped<IWorldCityRepository, WorldCityRepostitory>();
+builder.Services.AddScoped<WeatherApi.Services.Interface.IWeatherService, WeatherService>();
 
 builder.Services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<WeatherContextt>()

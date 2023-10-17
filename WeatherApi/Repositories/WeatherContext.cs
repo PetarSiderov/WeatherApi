@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 using WeatherApi.Entities;
 
 namespace WeatherApi.Repositories
@@ -19,8 +20,16 @@ namespace WeatherApi.Repositories
             // connect to mysql with connection string from app settings
             var connectionString = Configuration.GetConnectionString("WebApiDatabase");
             options.UseMySQL(connectionString);
+
         }
 
-       // public DbSet<User> Users { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<WorldCity>().HasNoKey();
+        }
+        public DbSet<Cities> Cities { get; set; }
+        public DbSet<WorldCity> WorldCities { get; set; }
     }
 }

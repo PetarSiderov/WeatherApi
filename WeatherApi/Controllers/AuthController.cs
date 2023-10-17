@@ -46,7 +46,7 @@ namespace WeatherApi.Controllers
 
                 if (result.Succeeded)
                 {
-                    return Ok(identityUser);
+                    return Ok(new { data = "User is created" });
                 }
 
                 return Ok("Failed to register");
