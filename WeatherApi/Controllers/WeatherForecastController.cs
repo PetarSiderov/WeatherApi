@@ -17,14 +17,14 @@ namespace WeatherApi.Controllers
             this.weatherService = weatherService;
         }
 
-        [HttpPost("WeatherSearch")]
+        [HttpGet("WeatherSearch")]
         public async Task<IActionResult> SearchWeather([FromQuery] string city)
         {
             try
             {
                 var response = await worldCityRepository.getCityLangLong(city);
-                var result = await weatherService.getCurrentWeather((double)response.Lat, (double)response.Lng);
-                return Ok();
+                var result = await weatherService.getCurrentWeather(response);
+                return Ok(result);
             }
             catch (Exception ex) {
                 return BadRequest(ex.Message);

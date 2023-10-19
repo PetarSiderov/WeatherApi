@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
+using WeatherApi.Entities;
 using WeatherApi.Models.WeatherAPI;
 using WeatherApi.Services.Interface;
 
@@ -12,7 +13,27 @@ namespace WeatherApi.Services
         {
 
         }
-        public async Task<CurrentWeather> getCurrentWeather(double lat, double lng)
+
+        public async Task<CurrentWeatherViewModel?> getCurrentWeather(WorldCity worldCity)
+        {
+            try
+            {
+                var openWeatherMapResponse = await getCurrentWeatherAPI((double)worldCity.Lat, (double)worldCity.Lng);
+
+                CurrentWeatherViewModel currentWeather = new CurrentWeatherViewModel()
+                {
+                    cityName = worldCity.CityAscii + ", " + worldCity.Country + ", " + worldCity.Iso2,
+                    dailyPrediction = openWeatherMapResponse
+                };
+
+                return currentWeather;
+            }
+            catch(Exception ex) {
+                return null;
+            }
+        }
+
+        private async Task<List<Daily>?> getCurrentWeatherAPI(double lat, double lng)
         {
             try
             {
@@ -27,7 +48,7 @@ namespace WeatherApi.Services
                         // Read and parse the response content
                        var jsonSerializer = JsonSerializer.Deserialize<WeatherData>(response);
 
-                        return jsonSerializer.current;
+                        return jsonSerializer?.daily;
                     }
                     else
                     {
@@ -41,7 +62,6 @@ namespace WeatherApi.Services
             {
                 return null;
             }
-            throw new NotImplementedException();
         }
     }
 }

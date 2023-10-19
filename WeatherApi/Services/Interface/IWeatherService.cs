@@ -1,9 +1,10 @@
-﻿using WeatherApi.Models.WeatherAPI;
+﻿using WeatherApi.Entities;
+using WeatherApi.Models.WeatherAPI;
 
 namespace WeatherApi.Services.Interface
 {
     public interface IWeatherService
-    {  
-        Task<CurrentWeather> getCurrentWeather(double lat, double lng);
+    {
+        Task<CurrentWeatherViewModel> getCurrentWeather(WorldCity worldCity);
     }
 }
