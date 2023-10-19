@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.InteropServices;
 using WeatherApi.Repositories.Interfaces;
@@ -27,6 +28,25 @@ namespace WeatherApi.Controllers
                 return Ok(result);
             }
             catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetAllCities")]
+        public async Task<IActionResult> GetAllCities([FromQuery] string cityName)
+        {
+            try
+            {
+                var response = await worldCityRepository.getAllCities();
+                if (cityName == "all")
+                {
+                    return Ok(response.Take(1000).ToList());
+                }
+                var filtered = response.Where(s => s.CityName.ToLower().Contains(cityName.ToLower())).Take(1000).ToList(); 
+                return Ok(filtered);
+            }
+            catch(Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }
