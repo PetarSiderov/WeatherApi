@@ -32,11 +32,11 @@ namespace WeatherApi.Helpers
 
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(TokenKey));
                
-                var signInCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
+                var signInCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
                 var tokenCreation = new JwtSecurityToken(
-                        issuer: "",
-                        audience: "",
+                        issuer: "www.test.com",
+                        audience: "www.test.com",
                         expires: DateTime.UtcNow.AddMinutes(5000),
                         claims: claims,
                         signingCredentials: signInCredentials

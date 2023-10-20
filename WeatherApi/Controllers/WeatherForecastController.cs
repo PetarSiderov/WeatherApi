@@ -6,6 +6,7 @@ using WeatherApi.Services.Interface;
 
 namespace WeatherApi.Controllers
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
