@@ -26,6 +26,10 @@ namespace WeatherApi.Controllers
             {
                 var response = await worldCityRepository.getCityLangLong(city);
                 var result = await weatherService.getCurrentWeather(response);
+                if(result == null)
+                {
+                    return Ok(new { data = "Searched city not exists" });
+                }
                 return Ok(result);
             }
             catch (Exception ex) {

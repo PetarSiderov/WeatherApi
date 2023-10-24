@@ -18,15 +18,20 @@ namespace WeatherApi.Services
         {
             try
             {
-                var openWeatherMapResponse = await getCurrentWeatherAPI((double)worldCity.Lat, (double)worldCity.Lng);
-
-                CurrentWeatherViewModel currentWeather = new CurrentWeatherViewModel()
+                if(worldCity != null)
                 {
-                    cityName = worldCity.CityAscii + ", " + worldCity.Country + ", " + worldCity.Iso2,
-                    dailyPrediction = openWeatherMapResponse
-                };
+                    var openWeatherMapResponse = await getCurrentWeatherAPI((double)worldCity.Lat, (double)worldCity.Lng);
 
-                return currentWeather;
+                    CurrentWeatherViewModel currentWeather = new CurrentWeatherViewModel()
+                    {
+                        cityName = worldCity.CityAscii + ", " + worldCity.Country + ", " + worldCity.Iso2,
+                        dailyPrediction = openWeatherMapResponse
+                    };
+                    return currentWeather;
+                }
+
+                return null;
+                
             }
             catch(Exception ex) {
                 return null;
